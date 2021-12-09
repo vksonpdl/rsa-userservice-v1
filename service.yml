@@ -7,5 +7,5 @@ spec:
     app: rsa-userservice-v1
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
