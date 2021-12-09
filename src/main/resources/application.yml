@@ -5,4 +5,4 @@ key:
   
 service:
   creditcard:
-    url: localhost:8081
+    url: http://34.135.52.109
