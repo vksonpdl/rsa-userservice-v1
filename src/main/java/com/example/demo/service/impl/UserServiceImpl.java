@@ -26,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
 		String creditCardNumber = "789456123";
 		CreditCardInfo creditCardInfo = null;
+		
+		encryptionUtil.encryptFromCloud();
 
 		try {
 			log.info("creditCardNumber :" + creditCardNumber);

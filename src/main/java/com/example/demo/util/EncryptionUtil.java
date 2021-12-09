@@ -1,5 +1,6 @@
 package com.example.demo.util;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -20,12 +21,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.example.demo.constants.AppConstants;
+import com.google.cloud.kms.v1.KeyManagementServiceClient;
+import com.google.cloud.kms.v1.KeyManagementServiceClient.ListKeyRingsPagedResponse;
+import com.google.cloud.kms.v1.KeyRing;
+import com.google.cloud.kms.v1.LocationName;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class EncryptionUtil {
 
 	@Value("${key.public}")
 	String publicKeyString;
+	
+	@Value("${secrets.GKE_PROJECT}")
+	String projectId;
+	
+	@Value("${secrets.GKE_ZONE}")
+	String projectZone;
 
 	public String encrypt(String plainText) throws InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidKeySpecException, IllegalBlockSizeException, BadPaddingException {
@@ -51,6 +65,27 @@ public class EncryptionUtil {
 
 			return plainText;
 
+		}
+	}
+	
+	
+	public void encryptFromCloud() {
+		try (KeyManagementServiceClient client = KeyManagementServiceClient.create()) {
+			LocationName parent = LocationName.of(projectId, projectZone);
+			
+			log.info("projectId :{},projectId");
+			log.info("projectZone :{},projectZone");
+
+			// Call the API.
+			ListKeyRingsPagedResponse response = client.listKeyRings(parent);
+
+			for (KeyRing keyRing : response.iterateAll()) {
+
+				log.info("keyName :{}", keyRing.getName());
+			}
+
+		} catch (IOException e) {
+			log.error("exception ", e);
 		}
 	}
 
