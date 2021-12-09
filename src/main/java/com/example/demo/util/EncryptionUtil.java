@@ -55,9 +55,7 @@ public class EncryptionUtil {
 	
 	@Value("${gcp.key-version-rsa}")
 	String keyVersion;
-	
-	@Value("${GOOGLE_APPLICATION_CREDENTIALS}")
-	String test;
+
 
 	public String encrypt(String plainText) throws InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidKeySpecException, IllegalBlockSizeException, BadPaddingException {
@@ -90,7 +88,6 @@ public class EncryptionUtil {
 			throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
 		
-		log.info("test: {}",test);
 
 		if (StringUtils.hasText(plainText)) {
 			KeyManagementServiceClient client = KeyManagementServiceClient.create();
