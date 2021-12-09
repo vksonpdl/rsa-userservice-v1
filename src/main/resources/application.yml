@@ -1,4 +1,8 @@
 server:
-  port: 8008
+  port: 8080
 key:
   public: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEm5DXUZpAGd6Vu6cezcuNGXkE04wLseERMM+7+dKcTQdnu4lfdM824q200zw/apzOt1VBI5xqcKrzsO8IzgpR/WBabXRC7elU2qhJ8ckXphmTjVzzCQ6NtM6U0Zjh6Nnj7pT7mSOM6W1B3avJOoXbL83Inj+oISCP60Ho7MNwdwIDAQAB
+  
+service:
+  creditcard:
+    url: localhost:8081

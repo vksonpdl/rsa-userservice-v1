@@ -9,7 +9,7 @@ import com.example.demo.model.CreditCardInfo;
 
 
 
-@FeignClient(name = "creditcard-service", url = "localhost:8081")
+@FeignClient(name = "creditcard-service", url = "${service.creditcard.url}")
 public interface CreditCardServiceProxy {
 
 	
