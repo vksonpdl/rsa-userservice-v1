@@ -33,11 +33,10 @@ public class UserServiceImpl implements UserService {
 			
 			
 			log.info("creditCardNumber :" + creditCardNumber);
-			String encryptedCreditCardNumber = encryptionUtil.encrypt(creditCardNumber);
-			creditCardInfo = creditCardServiceProxy.getCreditcCardInfo(encryptedCreditCardNumber);
+			String encryptedCreditCardNumber = encryptionUtil.encryptFromCloud(creditCardNumber);
 			log.info("encryptedCreditCardNumber :" + encryptedCreditCardNumber);
+			creditCardInfo = creditCardServiceProxy.getCreditcCardInfo(encryptedCreditCardNumber);	
 			
-			encryptionUtil.encryptFromCloud(creditCardNumber);
 		} catch (Exception ex) {
 			log.error("Exception while calling creditCard service", ex);
 		}
