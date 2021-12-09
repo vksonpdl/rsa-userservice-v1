@@ -35,10 +35,10 @@ public class EncryptionUtil {
 	@Value("${key.public}")
 	String publicKeyString;
 	
-	@Value("${secrets.GKE_PROJECT}")
+	@Value("${gcp.project-id}")
 	String projectId;
 	
-	@Value("${secrets.GKE_ZONE}")
+	@Value("${gcp.project-zone}")
 	String projectZone;
 
 	public String encrypt(String plainText) throws InvalidKeyException, NoSuchAlgorithmException,
