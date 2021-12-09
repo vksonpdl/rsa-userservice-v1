@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rsa-userservice-v1
+spec:
+  selector:
+    app: rsa-userservice-v1
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rsa-userservice-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rsa-userservice-v1
+  template:
+    metadata:
+      labels:
+        app: rsa-userservice-v1
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          imagePullPolicy: Always
