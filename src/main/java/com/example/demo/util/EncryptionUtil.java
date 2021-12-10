@@ -8,8 +8,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -32,14 +30,12 @@ import com.google.cloud.kms.v1.CryptoKeyVersionName;
 import com.google.cloud.kms.v1.KeyManagementServiceClient;
 
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Component
 public class EncryptionUtil {
 
-	@Value("${key.public}")
-	String publicKeyString;
+	/*
+	 * @Value("${key.public}") String publicKeyString;
+	 */
 
 	@Value("${gcp.project-id}")
 	String projectId;
@@ -57,32 +53,36 @@ public class EncryptionUtil {
 	String keyVersion;
 
 
-	public String encrypt(String plainText) throws InvalidKeyException, NoSuchAlgorithmException,
-			NoSuchPaddingException, InvalidKeySpecException, IllegalBlockSizeException, BadPaddingException {
-
-		if (StringUtils.hasText(plainText)) {
-			byte[] publicKeyBytes = publicKeyString.getBytes(StandardCharsets.UTF_8);
-			publicKeyBytes = Base64.getDecoder().decode(publicKeyBytes);
-			KeyFactory keyFactory = KeyFactory.getInstance(AppConstants.ENCRYPTION_MODE_RSA);
-			EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(publicKeyBytes);
-			RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
-
-			Cipher encryptCipher = Cipher.getInstance(AppConstants.ENCRYPTION_MODE_RSA);
-			encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
-			byte[] secretMessageBytes = plainText.getBytes(StandardCharsets.UTF_8);
-			byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
-
-			String encryptedString = Base64.getEncoder().encodeToString(encryptedMessageBytes);
-
-			return encryptedString.replaceAll(AppConstants.CHAR_FORWARDSLASH, AppConstants.CHAR_ASTERISK);
-
-		} else {
-
-			return plainText;
-
-		}
-	}
+	/*
+	 * public String encrypt(String plainText) throws InvalidKeyException,
+	 * NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException,
+	 * IllegalBlockSizeException, BadPaddingException {
+	 * 
+	 * if (StringUtils.hasText(plainText)) { byte[] publicKeyBytes =
+	 * publicKeyString.getBytes(StandardCharsets.UTF_8); publicKeyBytes =
+	 * Base64.getDecoder().decode(publicKeyBytes); KeyFactory keyFactory =
+	 * KeyFactory.getInstance(AppConstants.ENCRYPTION_MODE_RSA); EncodedKeySpec
+	 * publicKeySpec = new X509EncodedKeySpec(publicKeyBytes); RSAPublicKey
+	 * publicKey = (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
+	 * 
+	 * Cipher encryptCipher = Cipher.getInstance(AppConstants.ENCRYPTION_MODE_RSA);
+	 * encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+	 * 
+	 * byte[] secretMessageBytes = plainText.getBytes(StandardCharsets.UTF_8);
+	 * byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
+	 * 
+	 * String encryptedString =
+	 * Base64.getEncoder().encodeToString(encryptedMessageBytes);
+	 * 
+	 * return encryptedString.replaceAll(AppConstants.CHAR_FORWARDSLASH,
+	 * AppConstants.CHAR_ASTERISK);
+	 * 
+	 * } else {
+	 * 
+	 * return plainText;
+	 * 
+	 * } }
+	 */
 
 	public String encryptFromCloud(String plainText)
 			throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
@@ -114,8 +114,6 @@ public class EncryptionUtil {
 			byte[] ciphertext = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
 
 			String encryptedString = Base64.getEncoder().encodeToString(ciphertext);
-			
-			log.info("encryptedString : {}",encryptedString);
 
 			return encryptedString.replaceAll(AppConstants.CHAR_FORWARDSLASH, AppConstants.CHAR_ASTERISK);
 
