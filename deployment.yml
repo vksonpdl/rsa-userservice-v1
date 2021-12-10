@@ -16,3 +16,23 @@ spec:
         - name: app
           image: gcr.io/PROJECT_ID/IMAGE:TAG
           imagePullPolicy: Always
+          volumeMounts:
+          - name: "service-account"
+            mountPath: "/var/run/secret/cloud.google.com"
+          - name: "certs"
+            mountPath: "/etc/ssl/certs"
+          env:
+          - name: "BUCKET_NAME"
+            value: my-app
+          - name: "GOOGLE_APPLICATION_CREDENTIALS"
+            value: "/var/run/secret/cloud.google.com/service-account.json"
+            
+      volumes:
+        - name: "service-account"
+          secret:
+            secretName: "my-app-sa-key"
+        - name: "certs"
+          hostPath:
+            path: "/etc/ssl/certs"
+            
+ 
