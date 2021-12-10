@@ -25,7 +25,13 @@ spec:
           - name: "BUCKET_NAME"
             value: my-app
           - name: "GOOGLE_APPLICATION_CREDENTIALS"
-            value: "/var/run/secret/cloud.google.com/service-account.json"
-
+            value: "/var/run/secret/cloud.google.com/service-account.json"            
+      volumes:
+        - name: "service-account"
+          secret:
+            secretName: "my-app-sa-key"
+        - name: "certs"
+          hostPath:
+            path: "/etc/ssl/certs"
             
  
