@@ -5,7 +5,7 @@ key:
   
 service:
   creditcard:
-    url: http://34.135.52.109
+    url: http://35.238.1.128
     
 gcp:
   project-id: gothic-scheme-334505
