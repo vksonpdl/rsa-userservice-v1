@@ -11,5 +11,5 @@ gcp:
   project-id: gothic-scheme-334505
   key-zone: us-central1
   key-ring: rsa_key_ring_asym
-  key-name-rsa: rsa_key_new
+  key-name-rsa: rsa_key_asym
   key-version-rsa: '1' 
