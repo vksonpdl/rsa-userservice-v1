@@ -20,6 +20,11 @@ public class UserController {
 
 		return service.getUserData();
 	}
+	@GetMapping("/getjson")
+	public String getUserJson() {
+
+		return service.getJsonUser();
+	}
 
 	@GetMapping("/")
 	public String testerMethod() {
