@@ -13,3 +13,12 @@ gcp:
   key-ring: rsa_key_ring_asym
   key-name-rsa: rsa_key_asym
   key-version-rsa: '1' 
+  
+management:
+  endpoint:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: env
