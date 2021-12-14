@@ -20,10 +20,10 @@ public class UserController {
 
 		return service.getUserData();
 	}
-	@GetMapping("/getjson")
-	public String getUserJson() {
+	@GetMapping("/getcreditcardinfo")
+	public User getUserJson() {
 
-		return service.getJsonUser();
+		return service.getCreditCardDetails();
 	}
 
 	@GetMapping("/")

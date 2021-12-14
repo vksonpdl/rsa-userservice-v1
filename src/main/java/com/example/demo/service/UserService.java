@@ -7,6 +7,8 @@ public interface UserService {
 	
 	public User getUserData();
 
-	public String getJsonUser();
+	
+
+	public User getCreditCardDetails();
 
 }

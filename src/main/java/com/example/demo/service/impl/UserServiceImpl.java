@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.CreditCardInfo;
+import com.example.demo.model.MessageDto;
 import com.example.demo.model.User;
 import com.example.demo.model.UserDto;
 import com.example.demo.service.CreditCardServiceProxy;
-import com.example.demo.service.SendUserJsonToCreditCard;
 import com.example.demo.service.UserService;
 import com.example.demo.util.EncryptionUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	CreditCardServiceProxy creditCardServiceProxy;
 	
-	@Autowired
-	SendUserJsonToCreditCard sendUserJsonToCreditCard;
+	
 
 	@Autowired
 	EncryptionUtil encryptionUtil;
+	
+	@Autowired
+	ObjectMapper objectMapper;
+
 
 	@Override
 	public User getUserData() {
@@ -52,21 +56,37 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String getJsonUser() {
-		String status=null;
+	public User getCreditCardDetails() {
+		
+		CreditCardInfo creditCardInfo = null;
+		MessageDto messagedto=null;
+		
 		try {
 		
 		UserDto userDto = UserDto.builder().name("testUser").id(200L).creditCardNumber("98761234")
 				.pin(1111).build();
-		String userJson = new Gson().toJson(userDto);
-		 status = sendUserJsonToCreditCard.getStatus(userJson);	
-		}
+		//String userJson = new Gson().toJson(userDto);
+		
+		
+		//log.info("printing the user json :{} ",userJson);
+		log.info("user DTO before calling:{}",userDto.toString());
+		
+		String userDtoString = objectMapper.writeValueAsString(userDto);
+		String encryptedUserDtoObject = encryptionUtil.encryptFromCloud(userDtoString);
+		log.info("encrypteduserobject :" + encryptedUserDtoObject );
+		
+		messagedto=MessageDto.builder().message(encryptedUserDtoObject).build();
+		
+		creditCardInfo = creditCardServiceProxy.getCreditCarddetails(messagedto);	
+		} 
 		catch (Exception exp) {
-			log.error("Exception while calling creditCard service", ex);
+			log.error("Exception while calling creditCard service");
 		}
+		User user = User.builder().name("testUser").id(200L).creditCardNumber("98761234")
+				.creditCardInfo(creditCardInfo).build();
+		return user;
 		
 		
-		return status;
 	}
 
 }

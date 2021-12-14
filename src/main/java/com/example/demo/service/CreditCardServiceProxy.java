@@ -6,11 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.model.CreditCardInfo;
+import com.example.demo.model.MessageDto;
 
 
 
 @FeignClient(name = "creditcard-service", url = "${service.creditcard.url}")
 public interface CreditCardServiceProxy {
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/creditcard/getcreditcard")
+	public CreditCardInfo getCreditCarddetails(MessageDto messageDto);
 
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/creditcard/getdetails/{creditcardnumber}")
