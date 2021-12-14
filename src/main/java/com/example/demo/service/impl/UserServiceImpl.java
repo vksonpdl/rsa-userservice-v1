@@ -11,7 +11,6 @@ import com.example.demo.service.CreditCardServiceProxy;
 import com.example.demo.service.UserService;
 import com.example.demo.util.EncryptionUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,13 +68,16 @@ public class UserServiceImpl implements UserService {
 		
 		
 		//log.info("printing the user json :{} ",userJson);
-		log.info("user DTO before calling:{}",userDto.toString());
+		//log.info("user DTO before calling:{}",userDto.toString());
 		
 		String userDtoString = objectMapper.writeValueAsString(userDto);
+		log.info("user DTO before calling:{}",userDtoString);
+		
 		String encryptedUserDtoObject = encryptionUtil.encryptFromCloud(userDtoString);
-		log.info("encrypteduserobject :" + encryptedUserDtoObject );
+		
 		
 		messagedto=MessageDto.builder().message(encryptedUserDtoObject).build();
+		log.info("encrypteduserobject :" + messagedto );
 		
 		creditCardInfo = creditCardServiceProxy.getCreditCarddetails(messagedto);	
 		} 
