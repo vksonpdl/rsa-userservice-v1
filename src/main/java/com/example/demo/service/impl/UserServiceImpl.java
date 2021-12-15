@@ -64,26 +64,25 @@ public class UserServiceImpl implements UserService {
 		
 		UserDto userDto = UserDto.builder().name("testUser").id(200L).creditCardNumber("98761234")
 				.pin(1111).build();
-		//String userJson = new Gson().toJson(userDto);
 		
-		
-		//log.info("printing the user json :{} ",userJson);
-		//log.info("user DTO before calling:{}",userDto.toString());
 		
 		String userDtoString = objectMapper.writeValueAsString(userDto);
-		log.info("user DTO before calling:{}",userDtoString);
+		log.info("userDTO : {}",userDtoString);
 		
 		String encryptedUserDtoObject = encryptionUtil.encryptFromCloud(userDtoString);
 		
 		
 		messagedto=MessageDto.builder().message(encryptedUserDtoObject).build();
-		log.info("encrypteduserobject :" + messagedto );
+		log.info("MessageDTO : {}" ,objectMapper.writeValueAsString(messagedto) );
 		
-		creditCardInfo = creditCardServiceProxy.getCreditCarddetails(messagedto);	
+		creditCardInfo = creditCardServiceProxy.getCreditCarddetails(messagedto);
+		
 		} 
+		
 		catch (Exception exp) {
 			log.error("Exception while calling creditCard service");
 		}
+		
 		User user = User.builder().name("testUser").id(200L).creditCardNumber("98761234")
 				.creditCardInfo(creditCardInfo).build();
 		return user;
