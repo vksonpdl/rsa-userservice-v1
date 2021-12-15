@@ -20,6 +20,11 @@ public class UserController {
 
 		return service.getUserData();
 	}
+	@GetMapping("/getcreditcardinfo")
+	public User getUserJson() {
+
+		return service.getCreditCardDetails();
+	}
 
 	@GetMapping("/")
 	public String testerMethod() {

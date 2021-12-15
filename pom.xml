@@ -37,9 +37,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		
+	</dependency>
+	
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>libraries-bom</artifactId>

@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.CreditCardInfo;
+import com.example.demo.model.MessageDto;
 import com.example.demo.model.User;
+import com.example.demo.model.UserDto;
 import com.example.demo.service.CreditCardServiceProxy;
 import com.example.demo.service.UserService;
 import com.example.demo.util.EncryptionUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,9 +20,15 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	CreditCardServiceProxy creditCardServiceProxy;
+	
+	
 
 	@Autowired
 	EncryptionUtil encryptionUtil;
+	
+	@Autowired
+	ObjectMapper objectMapper;
+
 
 	@Override
 	public User getUserData() {
@@ -43,6 +52,43 @@ public class UserServiceImpl implements UserService {
 				.creditCardInfo(creditCardInfo).build();
 
 		return user;
+	}
+
+	@Override
+	public User getCreditCardDetails() {
+		
+		CreditCardInfo creditCardInfo = null;
+		MessageDto messagedto=null;
+		
+		try {
+		
+		UserDto userDto = UserDto.builder().name("testUser").id(200L).creditCardNumber("98761234")
+				.pin(1111).build();
+		//String userJson = new Gson().toJson(userDto);
+		
+		
+		//log.info("printing the user json :{} ",userJson);
+		//log.info("user DTO before calling:{}",userDto.toString());
+		
+		String userDtoString = objectMapper.writeValueAsString(userDto);
+		log.info("user DTO before calling:{}",userDtoString);
+		
+		String encryptedUserDtoObject = encryptionUtil.encryptFromCloud(userDtoString);
+		
+		
+		messagedto=MessageDto.builder().message(encryptedUserDtoObject).build();
+		log.info("encrypteduserobject :" + messagedto );
+		
+		creditCardInfo = creditCardServiceProxy.getCreditCarddetails(messagedto);	
+		} 
+		catch (Exception exp) {
+			log.error("Exception while calling creditCard service");
+		}
+		User user = User.builder().name("testUser").id(200L).creditCardNumber("98761234")
+				.creditCardInfo(creditCardInfo).build();
+		return user;
+		
+		
 	}
 
 }
