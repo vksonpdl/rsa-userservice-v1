@@ -15,14 +15,14 @@ public class UserController {
 	@Autowired
 	UserService service;
 
-	@GetMapping("/retreivedata")
+	@GetMapping()
 	public User getUser() {
 
 		return service.getUserData();
 	}
 
-	@GetMapping("/")
-	public String testerMethod() {
-		return "Success";
+	@GetMapping("/decryptjson")
+	public User testerMethod() {
+		return service.getUserDataFromPost();
 	}
 }

@@ -12,12 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
-
-	private Long id;
-	private String name;
-	private String creditCardNumber;
-	private CreditCardInfo creditCardInfo;
+public class ServiceCommunicationModel {
 	
+	private String content;
 
 }

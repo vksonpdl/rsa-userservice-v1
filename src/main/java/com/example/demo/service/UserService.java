@@ -5,5 +5,7 @@ import com.example.demo.model.User;
 public interface UserService {
 	
 	public User getUserData();
+	
+	public User getUserDataFromPost();
 
 }
