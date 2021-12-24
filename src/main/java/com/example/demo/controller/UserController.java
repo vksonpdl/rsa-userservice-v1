@@ -12,7 +12,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
 @RestController
-@CrossOrigin (origins = {"http://localhost:4200","http://146.148.98.149","http://146.148.98.149:80"})
+@CrossOrigin (origins = {"http://localhost:4200","http://146.148.98.149","http://146.148.98.149:80","http://104.154.48.212","http://104.154.48.212:80"})
 @RequestMapping("/user")
 public class UserController {
 
