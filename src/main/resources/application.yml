@@ -2,6 +2,7 @@ server:
   port: 8080
 key:
   public: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApkpYnourkCApQGC8XEa5DO+XEpKLQ/DUkaDumyFarklkumr1polByTCGxpMEAfj9SYSbc58jbAtkHWRzsfQsJucDfW8L2Pjtx8ycHcQUfv9sQEdRgkRmn0tsOBJXX8mgE2gss+uKMU4qKwF3YqUyvoJi+MBsGJqPGbUh4QzUiwsQogZ8v67IYtm1fSq+/KA8vLnOTD+ghIDrqhlGvm4IGclK5RTX5Cax4x00bnsoOyG5tOjSDNHtOx8yhFtSLY9DoILyZPliVliwsLTSNFFRPsv2Ms/ozVpeeNz31HDTD0cFeKht6PkdJKQFnn6f4+l7gr/Gggfb7iACGUAp+KOvxwIDAQAB
+  aes: ssshhhhhhhhhhh!!!!
   
 service:
   creditcard:
@@ -22,3 +23,7 @@ management:
     web:
       exposure:
         include: env
+        
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} | %-5level | %logger{36} | %msg%n'

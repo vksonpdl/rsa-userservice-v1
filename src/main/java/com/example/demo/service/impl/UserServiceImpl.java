@@ -110,6 +110,9 @@ public class UserServiceImpl implements UserService {
 		}
 
 		try {
+			
+			
+			jweUtil.testJWT();
 
 			UserDto userDto = UserDto.builder().id(id).creditCardNumber(creditCardNumber).name("userName").pin(1224)
 					.build();
