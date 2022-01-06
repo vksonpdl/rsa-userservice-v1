@@ -35,8 +35,10 @@ public class XMLValidatorUtil {
 
 	public static void main(String[] args) {
 
-		String xmlFilePath = "C:\\\\Users\\\\vkson\\\\Documents\\\\GitHub\\\\rsa-userservice-v1\\\\src\\\\main\\\\resources\\\\records.xml";
-
+		String xmlFilePath = "C:\\\\Users\\\\User\\\\Desktop\\\\rsa-userservice-v1\\\\src\\\\main\\\\resources\\\\records.xml";
+		
+	
+		
 		XMLValidatorUtil util = new XMLValidatorUtil();
 
 		util.validateXML(xmlFilePath, util);
@@ -45,6 +47,8 @@ public class XMLValidatorUtil {
 	}
 
 	private void validateXML(String xmlFilePath, XMLValidatorUtil util) {
+		
+		String xsdFilePath = "C:\\Users\\User\\Desktop\\rsa-userservice-v1\\src\\main\\resources\\records.xsd";
 
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
@@ -59,10 +63,20 @@ public class XMLValidatorUtil {
 		} catch (SAXException e) {
 
 			System.err.println(e.getMessage());
+			String message=e.getMessage().toString();
+			
+			//System.out.println("message="+message);
+			
+			if(!message.contains("cvc-complex-type.2.4.d"))
+			{
+			
 
 			String title[] = StringUtils.substringsBetween(e.getMessage(), "'", "'");
+			
+			System.out.println(title);
 
-			util.updateXML(xmlFilePath, util, title);
+			util.updateXML(xmlFilePath, util, title,xsdFilePath);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,10 +84,12 @@ public class XMLValidatorUtil {
 
 	}
 
-	private void updateXML(String xmlFilePath, XMLValidatorUtil util, String title[]) {
+	private void updateXML(String xmlFilePath, XMLValidatorUtil util, String title[],String xsdFilePath) {
 
 		try {
-
+			
+			XsdElements xsdElements=new XsdElements();
+			
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -81,21 +97,45 @@ public class XMLValidatorUtil {
 			Document document = documentBuilder.parse(xmlFilePath);
 
 			List<String> missingElements = Arrays.asList(title[1].replaceAll("[{}]", "").split(","));
+			
+			System.out.println(missingElements);
+			
+			
 
 			NodeList nodelist = document.getElementsByTagName(title[0]);
+			//System.out.println("nodelist"+nodelist.toString());
 
 			for (Node node : iterable(nodelist)) {
 				List<String> childNodes = getChildNodeNames(node);
+				
+				List<String> parentNodes= xsdElements.getParentNodes(xsdFilePath);
 
 				for (String missingElement : missingElements) {
 
 					missingElement = missingElement.trim();
+					
+					
 
 					if (!childNodes.contains(missingElement)) {
+						
+						if(parentNodes.contains(missingElement))
+							//if(missingElement.equals("name"))
+							{
+								
+								Element id = document.createElement(missingElement);
+								id.appendChild(document.createTextNode(""));
+								node.appendChild(id);
+								System.out.println("inside parent"+missingElement);
+								
+							}
+						else
+						{
+						
 
 						Element id = document.createElement(missingElement);
 						id.appendChild(document.createTextNode("DefaultValue"));
 						node.appendChild(id);
+						}
 
 					}
 
